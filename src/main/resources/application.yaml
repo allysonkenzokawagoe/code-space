@@ -21,3 +21,7 @@ spring:
     locations: classpath:db/migration
     table: flyway_schema_history
     default-schema: flyway
+
+logging:
+  level:
+    org.springframework.web: DEBUG
