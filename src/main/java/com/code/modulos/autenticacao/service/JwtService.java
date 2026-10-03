@@ -1,7 +1,7 @@
-package com.code.modulos.usuario.service;
+package com.code.modulos.autenticacao.service;
 
+import com.code.modulos.usuario.model.Usuario;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -17,13 +17,15 @@ public class JwtService {
 
     private final JwtEncoder jwtEncoder;
 
-    public String gerarToken(UserDetails userDetails) {
+    public String gerarToken(Usuario usuario) {
         var now = Instant.now();
 
         var claims = JwtClaimsSet.builder()
-                .subject(userDetails.getUsername())
+                .subject(usuario.getUsername())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(36000))
+                .claim("authorities", usuario.getAuthorities())
+                .claim("cargo", usuario.getCargo())
                 .build();
 
         var jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();

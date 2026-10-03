@@ -1,4 +1,4 @@
-package com.code.modulos.usuario.dto;
+package com.code.modulos.autenticacao.dto;
 
 public record LoginRequest(
         String email,

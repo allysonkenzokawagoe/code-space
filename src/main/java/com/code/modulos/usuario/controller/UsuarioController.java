@@ -1,9 +1,9 @@
 package com.code.modulos.usuario.controller;
 
-import com.code.modulos.usuario.dto.LoginRequest;
+import com.code.modulos.autenticacao.dto.LoginRequest;
 import com.code.modulos.usuario.dto.UsuarioRequest;
 import com.code.modulos.usuario.dto.UsuarioResponse;
-import com.code.modulos.usuario.service.AutenticacaoService;
+import com.code.modulos.autenticacao.service.AutenticacaoService;
 import com.code.modulos.usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

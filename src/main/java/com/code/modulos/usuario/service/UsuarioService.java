@@ -1,5 +1,6 @@
 package com.code.modulos.usuario.service;
 
+import com.code.modulos.autenticacao.service.AutenticacaoService;
 import com.code.modulos.comum.exceptions.NotFoundException;
 import com.code.modulos.comum.exceptions.ValidacaoException;
 import com.code.modulos.usuario.dto.UsuarioRequest;
@@ -9,19 +10,17 @@ import com.code.modulos.usuario.enums.ESituacao;
 import com.code.modulos.usuario.model.Usuario;
 import com.code.modulos.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UsuarioHistoricoService historicoService;
+    private final AutenticacaoService autenticacaoService;
 
     public void cadastrar(UsuarioRequest request) {
         validarUsuario(request);
@@ -33,6 +32,7 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public UsuarioResponse buscarPorId(Integer id) {
+        System.out.println(autenticacaoService.getUsuarioAutenticado());
         return UsuarioResponse.of(getById(id));
     }
 
@@ -66,11 +66,5 @@ public class UsuarioService implements UserDetailsService {
             throw new ValidacaoException("Usuário ja está com a situação " + situacao.name());
         }
         usuario.setSituacao(situacao);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encotrado"));
     }
 }
