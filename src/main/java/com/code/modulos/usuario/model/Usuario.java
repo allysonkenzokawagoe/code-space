@@ -2,6 +2,7 @@ package com.code.modulos.usuario.model;
 
 import com.code.modulos.usuario.dto.UsuarioRequest;
 import com.code.modulos.usuario.enums.ECargo;
+import com.code.modulos.usuario.enums.ESituacao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,12 +41,21 @@ public class Usuario implements UserDetails {
     @Column(name = "SENHA")
     private String senha;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "SITUACAO")
+    private ESituacao situacao;
+
     public static Usuario of(UsuarioRequest request) {
         return Usuario.builder()
                 .nome(request.nome())
                 .email(request.email())
                 .cargo(request.cargo())
                 .build();
+    }
+
+    public void setarDadosCadastro(String senha) {
+        this.senha = senha;
+        this.situacao = ESituacao.ATIVO;
     }
 
     @Override

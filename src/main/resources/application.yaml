@@ -21,3 +21,10 @@ spring:
     locations: classpath:db/migration
     table: flyway_schema_history
     default-schema: flyway
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+jwt:
+  secret: ab3f81b63b47b93f5880a2031cee5efbd25646c1ee97be668d68a0cc01e8dd6a
