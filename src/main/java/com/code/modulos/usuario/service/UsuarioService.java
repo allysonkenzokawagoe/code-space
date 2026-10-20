@@ -21,18 +21,19 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final UsuarioHistoricoService historicoService;
     private final AutenticacaoService autenticacaoService;
+    private final CargoService cargoService;
 
     public void cadastrar(UsuarioRequest request) {
         validarUsuario(request);
+        var cargo = cargoService.getById(request.fkCargo());
         var usuario = Usuario.of(request);
-        usuario.setarDadosCadastro(passwordEncoder.encode(request.senha()));
+        usuario.setarDadosCadastro(passwordEncoder.encode(request.senha()), cargo);
 
         var salvo = repository.save(usuario);
         historicoService.salvar(salvo, EAlteracao.CRIACAO);
     }
 
     public UsuarioResponse buscarPorId(Integer id) {
-        System.out.println(autenticacaoService.getUsuarioAutenticado());
         return UsuarioResponse.of(getById(id));
     }
 

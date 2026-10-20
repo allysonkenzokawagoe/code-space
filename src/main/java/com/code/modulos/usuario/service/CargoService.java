@@ -1,5 +1,6 @@
 package com.code.modulos.usuario.service;
 
+import com.code.modulos.comum.exceptions.NotFoundException;
 import com.code.modulos.comum.exceptions.ValidacaoException;
 import com.code.modulos.usuario.dto.CargoRequest;
 import com.code.modulos.usuario.model.Cargo;
@@ -17,6 +18,10 @@ public class CargoService {
         validarCargoExistente(request.nome());
         var cargo = Cargo.of(request);
         repository.save(cargo);
+    }
+
+    public Cargo getById(Integer id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Cargo não encontrado"));
     }
 
     private void validarCargoExistente(String nome) {
